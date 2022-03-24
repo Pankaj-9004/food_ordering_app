@@ -1,0 +1,131 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block maincontent %}
+{% load cart_tag %}
+
+<style>
+    button {
+  border: none;
+  outline: 0;
+  display: inline-block;
+  padding: 8px;
+  color: white;
+  background-color: rgb(245, 181, 61);
+  text-align: center;
+  cursor: pointer;
+  font-size: 18px;
+}
+</style>
+
+<section id="cart_items">
+    <div class="container">
+        <div class="breadcrumbs">
+            <ol class="breadcrumb">
+              <li><a href="http://localhost:8000/restro/homepage/">Home</a></li>
+              <li class="active">Shopping Cart</li>
+            </ol>
+        </div>
+        <div class="table-responsive cart_info">
+            <table class="table table-condensed">
+                <thead>
+                    <tr class="cart_menu">
+                        <td class="image">Item</td>
+                        <td class="name">Name</td>
+                        <td class="price">Price</td>
+                        <td class="quantity">Quantity</td>
+                        <td class="total">Total</td>
+                        <td></td>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for key,value in request.session.cart.items %}
+                    <tr>
+                        <td class="cart_product">
+                            <a href=""><img src="{{value.image}}" alt="" height="50px";></a>
+                        </td>
+                        <td class="cart_description">
+                            <h4><a href="">{{value.name}}</a></h4>
+                        <td class="cart_price">
+                            <h4><p>₹{{value.price}}</p></h4>
+                        </td>
+                        <td class="cart_quantity">
+                            <div class="cart_quantity_button">
+                                <a class="cart_quantity_up" href="{url 'item_increment' value.Product_id}"> + </a>
+                                <input class="cart_quantity_input" type="text" name="quantity" value="{{value.quantity}}" autocomplete="off" size="2">
+                                <a class="cart_quantity_down" href="{url 'item_decrement' value.Product_id}"> - </a>
+                            </div>
+                        </td>
+                        <td class="cart_total">
+                            <h4><p class="cart_total_price">₹{{ value.price|multiply:value.quantity }}</p></h4>
+                        </td>
+                        <td class="cart_delete">
+                            <a class="cart_quantity_delete" href="{url 'item_clear' key}"><i class="fa fa-times"></i></a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+                <tfoot>
+                    <td>
+                                <td>
+                                    <td>
+                                        <td>
+
+
+                                        </td>
+                                    </td>
+                                </td>
+                            </td>
+                        <td>
+                            <hr>
+                            <p>Sub Total :-</p>
+
+                            <h3>₹{{cart_total_price}}</h3>
+
+                        </td>
+
+
+                </tfoot>
+            </table>  <a href="http://localhost:8000/restro/checkout"><button class="btn btn-outline-warning  btn-sm" type="submit" style="float:right"><i class="fas fa-pen"></i>Checkout</button></a>
+        </div>
+    </div>
+</section> <!--/#cart_items-->
+
+<div id="reservation" class="reservations-main pad-top-100 pad-bottom-100">
+        <div class="container">
+            <div class="row">
+                <div class="form-reservations-box">
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                        <div class="wow fadeIn" data-wow-duration="1s" data-wow-delay="0.1s">
+                            <h2 class="block-title text-center">
+						Enter Your Order Address
+					</h2>
+                        </div>
+                        <form method="post">
+                            <div class="col-md-4">
+                            </div>
+                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                                <div class="form-box">
+                                    {% csrf_token %}
+                                    {{ form }}
+                                </div>
+                            </div>
+                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                <div class="reserve-book-btn text-center">
+                                    <a href="http://localhost:8000/restro/checkout/"><button class="hvr-underline-from-center" type="submit" value="SEND" id="submit">Place Order</button></a>
+                                </div>
+                            </div>
+                            <!-- end col -->
+                        </form>
+                        <!-- end form -->
+                    </div>
+                    <!-- end col -->
+                </div>
+                <!-- end reservations-box -->
+            </div>
+            <!-- end row -->
+        </div>
+        <!-- end container -->
+    </div>
+    <!-- end reservations-main -->
+
+{% endblock %}
